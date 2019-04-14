@@ -48,11 +48,11 @@ MRPC_TEST = 'https://s3.amazonaws.com/senteval/senteval_data/msr_paraphrase_test
 def download_and_extract(task, data_dir):
     print("Downloading and extracting %s..." % task)
     data_file = "%s.zip" % task
-    # if not os.path.exists(data_file):
-    #     URLLIB.urlretrieve(TASK2PATH[task], data_file)
-    with zipfile.ZipFile(data_file) as zip_ref:
-        zip_ref.extractall(data_dir)
-    os.remove(data_file)
+    if os.path.exists(data_file):
+        # URLLIB.urlretrieve(TASK2PATH[task], data_file)
+        with zipfile.ZipFile(data_file) as zip_ref:
+            zip_ref.extractall(data_dir)
+    # os.remove(data_file)
     print("\tCompleted!")
 
 def format_mrpc(data_dir, path_to_data):
