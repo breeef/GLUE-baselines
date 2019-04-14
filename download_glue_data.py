@@ -48,7 +48,8 @@ MRPC_TEST = 'https://s3.amazonaws.com/senteval/senteval_data/msr_paraphrase_test
 def download_and_extract(task, data_dir):
     print("Downloading and extracting %s..." % task)
     data_file = "%s.zip" % task
-    URLLIB.urlretrieve(TASK2PATH[task], data_file)
+    if not os.path.exists(data_file):
+        URLLIB.urlretrieve(TASK2PATH[task], data_file)
     with zipfile.ZipFile(data_file) as zip_ref:
         zip_ref.extractall(data_dir)
     os.remove(data_file)
@@ -65,11 +66,13 @@ def format_mrpc(data_dir, path_to_data):
     else:
         mrpc_train_file = os.path.join(mrpc_dir, "msr_paraphrase_train.txt")
         mrpc_test_file = os.path.join(mrpc_dir, "msr_paraphrase_test.txt")
-        URLLIB.urlretrieve(MRPC_TRAIN, mrpc_train_file)
-        URLLIB.urlretrieve(MRPC_TEST, mrpc_test_file)
+        if not os.path.exists(mrpc_test_file) and not os.path.exists(mrpc_test_file):
+            URLLIB.urlretrieve(MRPC_TRAIN, mrpc_train_file)
+            URLLIB.urlretrieve(MRPC_TEST, mrpc_test_file)
     assert os.path.isfile(mrpc_train_file), "Train data not found at %s" % mrpc_train_file
     assert os.path.isfile(mrpc_test_file), "Test data not found at %s" % mrpc_test_file
-    URLLIB.urlretrieve(TASK2PATH["MRPC"], os.path.join(mrpc_dir, "dev_ids.tsv"))
+    if os.path.exists(os.path.join(mrpc_dir, "dev_ids.tsv")):
+        URLLIB.urlretrieve(TASK2PATH["MRPC"], os.path.join(mrpc_dir, "dev_ids.tsv"))
 
     dev_ids = []
     with io.open(os.path.join(mrpc_dir, "dev_ids.tsv"), encoding='utf-8') as ids_fh:
@@ -103,7 +106,8 @@ def download_diagnostic(data_dir):
     if not os.path.isdir(os.path.join(data_dir, "diagnostic")):
         os.mkdir(os.path.join(data_dir, "diagnostic"))
     data_file = os.path.join(data_dir, "diagnostic", "diagnostic.tsv")
-    URLLIB.urlretrieve(TASK2PATH["diagnostic"], data_file)
+    if os.path.exists(data_file):
+        URLLIB.urlretrieve(TASK2PATH["diagnostic"], data_file)
     print("\tCompleted!")
     return
 
