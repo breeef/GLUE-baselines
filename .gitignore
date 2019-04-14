@@ -3,3 +3,5 @@
 *.log
 .idea/
 glue_data/
+.idea/*
+glue_data/*
