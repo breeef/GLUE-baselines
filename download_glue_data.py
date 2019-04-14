@@ -66,13 +66,14 @@ def format_mrpc(data_dir, path_to_data):
     else:
         mrpc_train_file = os.path.join(mrpc_dir, "msr_paraphrase_train.txt")
         mrpc_test_file = os.path.join(mrpc_dir, "msr_paraphrase_test.txt")
-        if not os.path.exists(mrpc_test_file) and not os.path.exists(mrpc_test_file):
-            URLLIB.urlretrieve(MRPC_TRAIN, mrpc_train_file)
-            URLLIB.urlretrieve(MRPC_TEST, mrpc_test_file)
+        # if not os.path.exists(mrpc_test_file) and not os.path.exists(mrpc_test_file):
+            # URLLIB.urlretrieve(MRPC_TRAIN, mrpc_train_file)
+            # URLLIB.urlretrieve(MRPC_TEST, mrpc_test_file)
+            # print('NOT ',mrpc_test_file,mrpc_test_file)
     assert os.path.isfile(mrpc_train_file), "Train data not found at %s" % mrpc_train_file
     assert os.path.isfile(mrpc_test_file), "Test data not found at %s" % mrpc_test_file
-    if os.path.exists(os.path.join(mrpc_dir, "dev_ids.tsv")):
-        URLLIB.urlretrieve(TASK2PATH["MRPC"], os.path.join(mrpc_dir, "dev_ids.tsv"))
+    # if not os.path.exists(os.path.join(mrpc_dir, "dev_ids.tsv")):
+    #     URLLIB.urlretrieve(TASK2PATH["MRPC"], os.path.join(mrpc_dir, "dev_ids.tsv"))
 
     dev_ids = []
     with io.open(os.path.join(mrpc_dir, "dev_ids.tsv"), encoding='utf-8') as ids_fh:
